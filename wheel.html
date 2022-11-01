@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wheel Of Life</title>
+
+    <style>
+        .container {
+            margin-top:50px;
+            display:flex;
+            flex-direction: row;
+            width:100%;
+            align-self: center;
+            justify-self: center;
+        }
+
+        .form {
+            display:flex;
+            width:50%;
+
+            flex-direction: column;
+            justify-content:center;
+            align-items: center;
+
+            font-family:arial;
+        }
+
+        .form-row {
+            display:flex;
+            flex-direction:row;
+            width:80%;
+            padding:5px 0;
+        }
+
+        .form-label {
+            display:flex;
+            width:50%;
+        }
+
+        .form-value {
+            display:flex;
+            width:25%;
+        }
+
+        .form-target {
+            display:flex;
+            width:25%;
+        }
+
+        .bold
+        {
+            font-weight:700;
+        }
+
+        .chart {
+            display:flex;
+            flex-basis: 1;
+            align-self: flex-end;
+
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="form" class="form">
+            <div class="form-row">
+                <span class="form-label bold">Label</span>
+                <span class="form-value bold">Value</span>
+                <span class="form-target bold">Target</span>
+            </div>
+        </div>
+        <div class="chart">
+            <svg id="wheel" height="600" width="600" viewBox="-204 -204 408 408" >
+            <g id= "ow" transform="rotate( -112.5 )">
+    
+            </g>
+        </svg>
+    </div>
+    </div>
+
+    <script>
+
+        
+        // var session = [
+        //     { 
+        //         label : "Significant Other",
+        //         value : 9,
+        //         target: 9
+        //     },
+        //     { 
+        //         label : "Personal Growth",
+        //         value : 6,
+        //         target: 8
+        //     },
+        //     { 
+        //         label : "Fun & leisure",
+        //         value : 7,
+        //         target: 9
+        //     },
+        //     { 
+        //         label : "Home Environment",
+        //         value : 5,
+        //         target: 9
+        //     },
+        //     { 
+        //         label : "Career",
+        //         value : 5,
+        //         target: 7
+        //     },
+        //     { 
+        //         label : "Money",
+        //         value : 4,
+        //         target: 8
+        //     },
+        //     { 
+        //         label : "Health",
+        //         value : 5,
+        //         target: 8
+        //     },
+        //     { 
+        //         label : "Friends & Family",
+        //         value : 7,
+        //         target: 9
+        //     },
+        // ];
+
+        // var session = [
+        //     { 
+        //         label : "PHP",
+        //         value : 9,
+        //         target: 10
+        //     },
+        //     { 
+        //         label : "Web Design",
+        //         value : 8,
+        //         target: 9
+        //     },
+        //     { 
+        //         label : "HTML",
+        //         value : 9,
+        //         target: 10
+        //     },
+        //     { 
+        //         label : "CSS",
+        //         value : 9,
+        //         target: 10
+        //     },
+        //     { 
+        //         label : "Javascript",
+        //         value : 9,
+        //         target: 10
+        //     },
+        //     { 
+        //         label : "React",
+        //         value : 5,
+        //         target: 8
+        //     },
+        //     { 
+        //         label : "WP Eco System",
+        //         value : 9,
+        //         target: 10
+        //     },
+        //     { 
+        //         label : "WP Themes",
+        //         value : 9,
+        //         target: 10
+        //     },
+        //     { 
+        //         label : "WP Plugins",
+        //         value : 9,
+        //         target: 10
+        //     },
+        // ];
+       
+
+        var session = [
+            { 
+                label : "Significant Other",
+                value : 0,
+                target: 10
+            },
+            { 
+                label : "Personal Growth",
+                value : 0,
+                target: 10
+            },
+            { 
+                label : "Fun & leisure",
+                value : 0,
+                target: 10
+            },
+            { 
+                label : "Home Environment",
+                value : 0,
+                target: 10
+            },
+            { 
+                label : "Career",
+                value : 0,
+                target: 10
+            },
+            { 
+                label : "Money",
+                value : 0,
+                target: 10
+            },
+            { 
+                label : "Health",
+                value : 0,
+                target: 10
+            },
+            { 
+                label : "Friends & Family",
+                value : 0,
+                target: 10
+            },
+        ];
+
+    var wedges = session.length;
+    
+    var cr=200;
+    var or=185;
+    
+    var ir=180;
+        
+    var vr = 100;
+    var tr = 160;
+
+    var w = document.getElementById( "ow" );
+
+    var f = document.getElementById( "form" );
+
+    drawForm( );
+
+    drawWheel( session );
+
+    function drawWheel( )
+    {
+
+
+        var x1 = y1 = 0;
+        var cx = or;
+        var cy = 0;
+
+        var vcx = undefined;
+        var vcy = 0;
+
+        var circum = cos_x = sin_y = 0;
+
+        var circle = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "circle" );
+            
+        circle.setAttribute( "cx", 0 );
+        circle.setAttribute( "cy", 0 );
+        circle.setAttribute( "r", cr );
+        circle.setAttribute( "stroke", "#000" );
+        circle.setAttribute( "stroke-width", "2" );
+        circle.setAttribute( "fill", "#fff" );
+
+        w.appendChild( circle );
+        
+        for ( var i = 1; i< 10; i++ )
+        {
+
+            var temp_r = (ir / 10) * i ;
+
+            var circle = document.createElementNS(
+                    "http://www.w3.org/2000/svg",
+                    "circle" );
+                
+            circle.setAttribute( "cx", 0 );
+            circle.setAttribute( "cy", 0 );
+            circle.setAttribute( "r", temp_r );
+            circle.setAttribute( "stroke", "rgba( 128,128,128, 0.5)" );
+            circle.setAttribute( "stroke-width", "1" );
+            circle.setAttribute( "fill", "transparent" );
+            
+            w.appendChild( circle );
+        }
+
+        var prevAngle = 0;
+
+        for ( var i = 1; i<= wedges; i++ )
+        {
+
+            angle = 2 * Math.PI * ( i / wedges );
+            
+            drawLabel( angle, prevAngle, session[ i -1 ].label, "ow_"+i );   
+            
+            // drawValue( angle, prevAngle, session[ i -1 ].target, "hsla( "+angle*180/Math.PI +", 100%, 50%, 0.75 )" );
+            drawValue( angle, prevAngle, session[ i -1 ].target, "rgba( 128,128,128, 0.5)" );
+            
+            drawValue( angle, prevAngle, session[ i -1 ].value, 'rgb( 0,0,0 )' );
+            
+            if ( i % 2 == 0)
+                drawScale( angle, prevAngle, "sc_"+i);
+
+            prevAngle = angle;
+        }
+
+        for ( var i = 1; i<= wedges; i++ )
+        {
+            angle = 2 * Math.PI * ( i / wedges );
+         
+            drawSpoke( angle );
+
+        }
+
+        var inner = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "circle" );
+            
+        inner.setAttribute( "cx", 0 );
+        inner.setAttribute( "cy", 0 );
+        inner.setAttribute( "r", ir );
+        inner.setAttribute( "stroke", "#000" );
+        inner.setAttribute( "stroke-width", "1" );
+        inner.setAttribute( "fill", "transparent" );
+
+        w.appendChild( inner );
+    }
+
+    function drawForm( )
+    {
+        for ( var i = 1; i<= wedges; i++ )
+        {
+            var fr = document.createElement( 'div' );
+
+            fr.setAttribute( 'class', 'form-row' );
+
+            var frl = document.createElement( 'span' );
+            frl.setAttribute( 'class', 'form-label' );
+
+            frl.append( session[ i -1 ].label );
+
+            fr.appendChild( frl );
+
+            var frvs = document.createElement( 'span' );
+            frvs.setAttribute( 'class', 'form-value' );
+            
+            var frv = document.createElement( 'input' );
+
+            frv.setAttribute( "value", session[ i -1 ].value );
+            frv.setAttribute( "style", "margin:0 20px 0 0; width:50px;");
+            frv.setAttribute( "data-row", i-1 );
+
+            frv.setAttribute( "data-type", 'value' );
+            frv.setAttribute( "onChange", "updateWheel( " + (i - 1) +", 'v' )" );
+
+            frv.setAttribute( "id", (i - 1) +"v" );
+
+            frvs.appendChild( frv );
+            
+            fr.appendChild( frvs );
+
+            var frts = document.createElement( 'span' );
+            frts.setAttribute( 'class', 'form-target' );
+            
+            var frt = document.createElement( 'input' );
+
+            frt.setAttribute( "value", session[ i - 1 ].target );
+            frt.setAttribute( "style", "margin:0 20px 0 0; width:50px;");
+            frt.setAttribute( "data-row", i-1 );
+            frt.setAttribute( "data-type", 'target' );
+            frt.setAttribute( "onChange", "updateWheel(" + (i - 1) +", 't' )" );
+            frt.setAttribute( "id", (i - 1) +"t" );
+
+            frts.appendChild( frt );
+            
+            fr.appendChild( frts );
+
+
+            f.appendChild( fr );
+
+        }
+    }
+
+    function drawLabel( angle, prevAngle, label, pathID )
+    {
+        cos_x = Math.cos( angle ) * or;
+        sin_y = Math.sin( angle ) * or;
+
+        x1 = cos_x;
+        y1 = sin_y;
+
+        cx = Math.cos( prevAngle ) * or
+        cy = Math.sin( prevAngle ) * or
+
+
+        // console.log( x1, y1 );
+
+        var d = "M0,0 L"+cx+","+cy+" A"+or+","+or+" 0 0, 1 "+x1+","+y1+" Z";
+
+        var path = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "path",
+            );
+
+        path.setAttribute( "id", pathID );
+        path.setAttribute( "d", d );
+        path.setAttribute( 'fill', 'transparent');
+
+        w.appendChild( path );
+
+        var text = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "text",
+            );
+    
+        text.setAttribute( "text-anchor", "middle" );
+        // text.setAttribute( "fill", "#fff" );
+        text.setAttribute( 'fill', '#000' );
+        text.setAttribute( "width", "50" );
+        text.setAttribute( "font-size", "12px");
+        text.setAttribute( "font-family", "arial" );
+        text.setAttribute( "style", "text-transform:uppercase" );
+        
+
+        // w.appendChild( text );
+
+        var textPath = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "textPath",
+            );
+
+        // textPath.setAttribute( "xlink:href", "#ow_"+i );
+        textPath.setAttribute( "href", "#"+pathID );
+        // textPath.setAttribute( "path", d );
+        textPath.setAttribute( "startOffset", "50%" );
+
+        textPath.append( label  );
+
+        text.appendChild( textPath );
+
+        // setTimeout( () => {}, 1000);
+
+        w.appendChild( text );
+
+        cx = x1;
+        cy = y1;
+    }
+
+
+    function drawSpoke( angle, weight=1 )
+    {
+
+        cos_x = Math.cos( angle ) * cr;
+        sin_y = Math.sin( angle ) * cr;
+
+        var x2 = cos_x;
+        var y2 = sin_y;
+
+        var line = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "line",
+            );
+
+        line.setAttribute( "x1", 0 ); 
+        line.setAttribute( "y1", 0 ); 
+        line.setAttribute( "x2", x2 ); 
+        line.setAttribute( "y2", y2 ); 
+        line.setAttribute( 'stroke', '#000' );
+        line.setAttribute( 'stroke-width', weight );
+        line.setAttribute( 'style', 'blend-mode: difference' );
+        
+        w.appendChild( line );
+    }
+
+    function drawValues( angle, prevAngle, value, target )
+    {
+
+        var vr =(ir/10) * value;
+        var tr =(ir/10) * target;
+
+        cos_x = Math.cos( angle ) * vr;
+        sin_y = Math.sin( angle ) * vr;
+
+        x1 = cos_x;
+        y1 = sin_y;
+
+        vcx = Math.cos( prevAngle ) * vr
+        vcy = Math.sin( prevAngle ) * vr
+
+        var tx = Math.cos( angle ) * tr;
+        var ty = Math.sin( angle ) * tr;
+
+        tcx = Math.cos( prevAngle ) * tr
+        tcy = Math.sin( prevAngle ) * tr
+
+
+        var d = "M0,0 L"+tcx+","+tcy+" A"+tr+","+tr+" 0 0, 1 "+tx+","+ty+" Z";
+       
+        var tpath = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "path",
+            );
+        
+        if ( target == value )
+            var color = "gold";
+        else
+            var color = "silver";
+
+        // path.setAttribute( "id", pathID );
+        tpath.setAttribute( "d", d );
+        tpath.setAttribute( 'fill', color );
+        
+        // if ( target != value )
+            // tpath.setAttribute( 'stroke' , '#000' );
+        
+
+        w.appendChild( tpath );
+        
+        if ( value < target )
+        {
+            var d = "M0,0 L"+vcx+","+vcy+" A"+vr+","+vr+" 0 0, 1 "+x1+","+y1+" Z";
+
+            var path = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "path",
+                );
+
+            // path.setAttribute( "id", pathID );
+            path.setAttribute( "d", d );
+            path.setAttribute( 'fill', 'black');
+            path.setAttribute( 'stroke' , '#000' );
+
+            w.appendChild( path );
+        }
+
+    }
+
+    function drawValue( angle, prevAngle, value, colour = 'black' )
+    {
+
+        var vr =(ir/10) * value;
+
+        cos_x = Math.cos( angle ) * vr;
+        sin_y = Math.sin( angle ) * vr;
+
+        x1 = cos_x;
+        y1 = sin_y;
+
+        vcx = Math.cos( prevAngle ) * vr
+        vcy = Math.sin( prevAngle ) * vr
+        
+        var d = "M0,0 L"+vcx+","+vcy+" A"+vr+","+vr+" 0 0, 1 "+x1+","+y1+" Z";
+
+        var path = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "path",
+            );
+
+        // path.setAttribute( "id", pathID );
+        path.setAttribute( "d", d );
+        path.setAttribute( 'fill', colour);
+        path.setAttribute( 'stroke' , colour );
+
+        w.appendChild( path );
+
+        var d = "M"+vcx+","+vcy+" A"+vr+","+vr+" 0 0, 1 "+x1+","+y1+" ";
+
+        var cap = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "path",
+            );
+
+        // path.setAttribute( "id", pathID );
+        cap.setAttribute( "d", d );
+        cap.setAttribute( 'fill', "transparent");
+        cap.setAttribute( 'stroke' , "black" );
+
+        w.appendChild( cap );
+
+    }
+
+    function updateWheel( r, c )
+    {
+        
+        var v = document.getElementById( r+c ).value;
+        
+        console.log( r, c, v );
+
+        if ( c == 'v' )
+            session[ r ].value = v;
+        else
+            session[ r ].target = v;
+
+        drawWheel();
+
+    }
+
+    function drawScale( angle, prevAngle, pathID="", weight=1 )
+    {
+
+        for ( var i = 0; i< 10; i++ )
+        {
+            var temp_r = ((ir / 10) * i) + 5;
+
+            cos_x = Math.cos( angle ) * temp_r;
+            sin_y = Math.sin( angle ) * temp_r;
+
+            x1 = cos_x;
+            y1 = sin_y;
+
+            cx = Math.cos( prevAngle ) * temp_r;
+            cy = Math.sin( prevAngle ) * temp_r;
+
+            // console.log( x1, y1 );
+
+            var d = "M0,0 L"+cx+","+cy+" A"+tr+","+tr+" 0 0, 1 "+x1+","+y1+" Z";
+
+            var path = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "path",
+                );
+
+            path.setAttribute( "id", pathID+"_"+i );
+            path.setAttribute( "d", d );
+            path.setAttribute( 'fill', 'transparent');
+
+            w.appendChild( path );
+
+            var text = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "text",
+                );
+        
+            text.setAttribute( "text-anchor", "middle" );
+            text.setAttribute( 'fill', '#fff' );
+            text.setAttribute( "width", "50" );
+            text.setAttribute( "font-size", "8px");
+            text.setAttribute( "font-family", "arial" );
+            text.setAttribute( "style", "text-transform:uppercase; mix-blend-mode: difference; " );
+            
+            // w.appendChild( text );
+
+            var textPath = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "textPath",
+                );
+
+            // textPath.setAttribute( "xlink:href", "#ow_"+i );
+            textPath.setAttribute( "href", "#"+pathID+"_"+i );
+            // textPath.setAttribute( "path", d );
+            textPath.setAttribute( "startOffset", "50%" );
+
+            textPath.append( ""+(i+1) );
+
+            text.appendChild( textPath );
+
+            w.appendChild( text );
+        }
+    }
+
+
+    </script>
+</body>
+</html>

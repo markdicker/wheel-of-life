@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body width="100%">
+    <svg height="500" width="500" viewBox="-100 -100 200 200">
+        <g transform="rotate(-90)">
+            <path id="w1" d="M0,0 L100,0 A100,100 0 1,1 -95.9,-28.2 Z" fill="#00f"/>
+            <path id="t1" d="M10,0 L80,0 A80,80 0 1,1 -79.85,-4.78 Z" fill="transparent"/>
+            <text width="50" text-anchor="middle" fill="white">
+                <textPath xlink:href="#t1" startOffset="50%" text-anchor="middle" side="left">
+                    Mars
+                </textPath>
+              </text>
+            
+            <path d="M0,0 L-95.9,-28.2 A100,100 0 0,1 65.5,-75.6 Z" fill="#0f0"/>
+            <path id="t2" d="M10,0 L-79.85,-4.78 A80,80 0 1,1 79.64,7.56 Z" fill="transparent"/>
+            <text width="50" text-anchor="middle" fill="white">
+                <textPath xlink:href="#t2" startOffset="50%" text-anchor="middle" side="left">
+                    Europa
+                </textPath>
+              </text>
+            <path d="M0,0 L65.5,-75.6 A100,100 0 0,1 95.9,-28.2 Z"  fill="#f00"/>
+            <path id="t3" d="M10,0 L-79.85,-4.78 A80,80 0 1,1 79.64,7.56 Z" fill="transparent"/>
+            <text width="50" text-anchor="middle" fill="white">
+                <textPath xlink:href="#t3" startOffset="50%" text-anchor="middle" side="left">
+                    Europa
+                </textPath>
+              </text>
+            <path d="M0,0 L95.9,-28.2 A100,100 0 0,1 100,0 Z" />
+        </g>
+    </svg>
+</body>
+</html>
